@@ -1,0 +1,27 @@
+{
+	"name": "xopn/php-raml-parser",
+	"description": "Coverting a RAML definition into accessible PHP Objects",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Christian Zenker",
+			"email": "christian.zenker@aoe.com"
+		}
+	],
+	"require": {
+		"guzzlehttp/guzzle": "~4.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Xopn\\PhpRamlParser\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Xopn\\PhpRamlParserTests\\": "tests/"
+		}
+	}
+}
