@@ -4,7 +4,7 @@ namespace Xopn\PhpRamlParser\Domain;
 /**
  * The parsed content of the root RAML file
  */
-class Definition {
+class Definition extends AbstractDomain {
 
 	/**
 	 * The title property is a short plain text description of the RESTful API.

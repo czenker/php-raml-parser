@@ -1,7 +1,7 @@
 <?php
 namespace Xopn\PhpRamlParser\Domain;
 
-class NamedParameter {
+class NamedParameter extends AbstractDomain {
 
 	const TYPE_STRING  = 'string';
 	const TYPE_NUMBER  = 'number';

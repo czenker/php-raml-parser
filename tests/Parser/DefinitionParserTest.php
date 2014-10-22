@@ -108,9 +108,11 @@ class DefinitionParserTest extends AbstractTest {
 
 		$this->assertCount(1, $definition->getBaseUriParameters());
 		$this->assertTrue($definition->hasBaseUriParameter('apiDomain'));
+
 		$parameter = $definition->getBaseUriParameter('apiDomain');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UriParameter', $parameter);
 		$this->assertStringStartsWith('The sub-domain at which the API is accessible', $parameter->getDescription());
+		$this->assertSame($definition, $parameter->getParent());
 	}
 
 	public function testUriParameters() {
@@ -133,9 +135,11 @@ class DefinitionParserTest extends AbstractTest {
 
 		$this->assertCount(2, $definition->getUriParameters());
 		$this->assertTrue($definition->hasUriParameter('communityPath'));
+
 		$parameter = $definition->getUriParameter('communityPath');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UriParameter', $parameter);
 		$this->assertSame('Community Path', $parameter->getDisplayName());
+		$this->assertSame($definition, $parameter->getParent());
 	}
 
 	public function testDocumentation() {
@@ -156,6 +160,7 @@ class DefinitionParserTest extends AbstractTest {
 		$this->assertCount(2, $definition->getDocumentation());
 		foreach($definition->getDocumentation() as $userDoc) {
 			$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UserDocumentation', $userDoc);
+			$this->assertSame($definition, $userDoc->getParent());
 		}
 		$this->assertSame('Home', $definition->getDocumentation()[0]->getTitle());
 	}
@@ -170,8 +175,11 @@ class DefinitionParserTest extends AbstractTest {
 
 		$this->assertCount(1, $definition->getResources());
 		$this->assertTrue($definition->hasResource('/gists'));
-		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Resource', $definition->getResource('/gists'));
-		$this->assertSame('Gists', $definition->getResource('/gists')->getDisplayName());
+
+		$resource = $definition->getResource('/gists');
+		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Resource', $resource);
+		$this->assertSame('Gists', $resource->getDisplayName());
+		$this->assertSame($definition, $resource->getParent());
 	}
 
 

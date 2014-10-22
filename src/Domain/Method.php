@@ -10,7 +10,7 @@ namespace Xopn\PhpRamlParser\Domain;
  * @see https://www.ietf.org/rfc/rfc2616.txt
  * @see https://www.ietf.org/rfc/rfc5789.txt
  */
-class Method {
+class Method extends AbstractDomain {
 
 	/**
 	 * one of the HTTP methods defined in the HTTP version 1.1 specification RFC2616 and its extension, RFC5789

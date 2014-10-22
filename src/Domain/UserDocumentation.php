@@ -1,7 +1,7 @@
 <?php
 namespace Xopn\PhpRamlParser\Domain;
 
-class UserDocumentation {
+class UserDocumentation extends AbstractDomain {
 
 	/**
 	 * @var string|NULL

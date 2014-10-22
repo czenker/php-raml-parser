@@ -43,8 +43,11 @@ class MethodParserTest extends AbstractTest {
 
 		$this->assertCount(1, $method->getHeaders());
 		$this->assertTrue($method->hasHeader('Zencoder-Api-Key'));
-		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\NamedParameter', $method->getHeader('Zencoder-Api-Key'));
-		$this->assertSame('ZEncoder API Key',$method->getHeader('Zencoder-Api-Key')->getDisplayName());
+
+		$header = $method->getHeader('Zencoder-Api-Key');
+		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\NamedParameter', $header);
+		$this->assertSame('ZEncoder API Key', $header->getDisplayName());
+		$this->assertSame($method, $header->getParent());
 	}
 
 	public function testHeaderWildcardSupport() {
@@ -74,9 +77,11 @@ class MethodParserTest extends AbstractTest {
 
 		$this->assertCount(2, $method->getQueryParameters());
 		$this->assertTrue($method->hasQueryParameter('page'));
+
 		$parameter = $method->getQueryParameter('page');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\NamedParameter', $parameter);
 		$this->assertSame(NamedParameter::TYPE_INTEGER, $parameter->getType());
+		$this->assertSame($method, $parameter->getParent());
 	}
 
 	public function testBody() {
@@ -95,9 +100,11 @@ class MethodParserTest extends AbstractTest {
 
 		$this->assertCount(1, $method->getResponses());
 		$this->assertTrue($method->hasResponse('503'));
+
 		$response = $method->getResponse('503');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Response', $response);
 		$this->assertSame('The service is currently unavailable', $response->getDescription());
+		$this->assertSame($method, $response->getParent());
 	}
 
 	public function testBaseUriParameters() {
@@ -112,9 +119,11 @@ class MethodParserTest extends AbstractTest {
 
 		$this->assertCount(1, $method->getBaseUriParameters());
 		$this->assertTrue($method->hasBaseUriParameter('apiDomain'));
+
 		$parameter = $method->getBaseUriParameter('apiDomain');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UriParameter', $parameter);
 		$this->assertSame(['content-update'], $parameter->getEnum());
+		$this->assertSame($method, $parameter->getParent());
 	}
 }
  

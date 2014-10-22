@@ -41,11 +41,14 @@ class ResponseParserTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertCount(1, $response->getHeaders());
 		$this->assertTrue($response->hasHeader('X-waiting-period'));
-		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\NamedParameter', $response->getHeader('X-waiting-period'));
+
+		$header = $response->getHeader('X-waiting-period');
+		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\NamedParameter', $header);
 		$this->assertSame(
 			'The number of seconds to wait before you can attempt to make a request again.',
-			$response->getHeader('X-waiting-period')->getDescription()
+			$header->getDescription()
 		);
+		$this->assertSame($response, $header->getParent());
 	}
 
 }

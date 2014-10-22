@@ -42,9 +42,11 @@ class ResourceParserTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertCount(1, $resource->getResources());
 		$this->assertTrue($resource->hasResource('/{userId}'));
+
 		$nestedResource = $resource->getResource('/{userId}');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Resource', $nestedResource);
 		$this->assertSame('User', $nestedResource->getDisplayName());
+		$this->assertSame($resource, $nestedResource->getParent());
 	}
 
 	public function testBaseUriParameters() {
@@ -59,9 +61,11 @@ class ResourceParserTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertCount(1, $resource->getBaseUriParameters());
 		$this->assertTrue($resource->hasBaseUriParameter('apiDomain'));
+
 		$parameter = $resource->getBaseUriParameter('apiDomain');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UriParameter', $parameter);
 		$this->assertSame(['api-content'], $parameter->getEnum());
+		$this->assertSame($resource, $parameter->getParent());
 	}
 
 	public function testMethods() {
@@ -78,9 +82,11 @@ class ResourceParserTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertCount(2, $resource->getMethods());
 		$this->assertTrue($resource->hasMethod('get'));
+
 		$method = $resource->getMethod('get');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Method', $method);
 		$this->assertSame('List Jobs', $method->getDescription());
+		$this->assertSame($resource, $method->getParent());
 	}
 
 }

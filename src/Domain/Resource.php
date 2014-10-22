@@ -1,7 +1,7 @@
 <?php
 namespace Xopn\PhpRamlParser\Domain;
 
-class Resource {
+class Resource extends AbstractDomain {
 
 	/**
 	 * The displayName attribute provides a friendly name to the resource

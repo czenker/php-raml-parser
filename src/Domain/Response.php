@@ -4,7 +4,7 @@ namespace Xopn\PhpRamlParser\Domain;
 /**
  * Resource methods MAY have one or more responses.
  */
-class Response {
+class Response extends AbstractDomain {
 
 	/**
 	 * @var integer
