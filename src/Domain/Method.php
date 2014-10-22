@@ -1,0 +1,214 @@
+<?php
+namespace Xopn\PhpRamlParser\Domain;
+
+/**
+ * methods are operations that are performed on a resource.
+ *
+ * A method MUST be one of the HTTP methods defined in the HTTP version 1.1 specification RFC2616
+ * and its extension, RFC5789.
+ *
+ * @see https://www.ietf.org/rfc/rfc2616.txt
+ * @see https://www.ietf.org/rfc/rfc5789.txt
+ */
+class Method {
+
+	/**
+	 * one of the HTTP methods defined in the HTTP version 1.1 specification RFC2616 and its extension, RFC5789
+	 *
+	 * @var string
+	 */
+	protected $method;
+
+	/**
+	 * a description attribute briefly describes what the method does to the resource
+	 *
+	 * @var string
+	 */
+	protected $description;
+
+	/**
+	 * specify the non-standard HTTP headers
+	 *
+	 * @var array<NamedParameter>
+	 */
+	protected $headers = array();
+
+	/**
+	 * A RESTful API can be reached HTTP, HTTPS, or both.
+	 *
+	 * @var array<string>|NULL
+	 */
+	protected $protocols;
+
+	/**
+	 * If the resource or its method supports a query string, the query string MUST be defined
+	 *
+	 * @var array<NamedParameter>
+	 */
+	protected $queryParameters = array();
+
+	/**
+	 * @todo
+	 *
+	 * @var array<Body>
+	 */
+	protected $body = [];
+
+	/**
+	 * @var array<Response>
+	 */
+	protected $responses = [];
+
+	public function __construct($method) {
+		$this->method = $method;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMethod() {
+		return $this->method;
+	}
+
+	/**
+	 * @param string $method
+	 */
+	public function setMethod($method) {
+		$this->method = $method;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getProtocols() {
+		return $this->protocols;
+	}
+
+	/**
+	 * @param array $protocols
+	 */
+	public function setProtocols($protocols) {
+		$this->protocols = $protocols;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getQueryParameters() {
+		return $this->queryParameters;
+	}
+
+	/**
+	 * @param NamedParameter $parameter
+	 * @param string $name
+	 */
+	public function addQueryParameter(NamedParameter $parameter, $name) {
+		$this->queryParameters[$name] = $parameter;
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasQueryParameter($key) {
+		return array_key_exists($key, $this->queryParameters);
+	}
+
+	/**
+	 * @param $key
+	 * @return NamedParameter
+	 */
+	public function getQueryParameter($key) {
+		if(!$this->hasQueryParameter($key)) {
+			throw new \InvalidArgumentException(sprintf('QueryParameter with key %s does not exist', $key));
+		}
+		return $this->queryParameters[$key];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getHeaders() {
+		return $this->headers;
+	}
+
+	/**
+	 * @param NamedParameter $header
+	 * @param string $key
+	 */
+	public function addHeader(NamedParameter $header, $key) {
+		$key = strtolower($key);
+		$this->headers[$key] = $header;
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasHeader($key) {
+		$key = strtolower($key);
+		return array_key_exists($key, $this->headers);
+	}
+
+	/**
+	 * @param $key
+	 * @return mixed
+	 */
+	public function getHeader($key) {
+		$key = strtolower($key);
+		if(!$this->hasHeader($key)) {
+			throw new \InvalidArgumentException(sprintf('Header with key %s does not exist', $key));
+		}
+		return $this->headers[$key];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getResponses() {
+		return $this->responses;
+	}
+
+	/**
+	 * @param Response $response
+	 * @param string $statusCode
+	 */
+	public function addResponse(Response $response, $statusCode) {
+		$this->responses[$statusCode] = $response;
+	}
+
+	/**
+	 * @param string $statusCode
+	 * @return bool
+	 */
+	public function hasResponse($statusCode) {
+		return array_key_exists($statusCode, $this->responses);
+	}
+
+	/**
+	 * @param $statusCode
+	 * @return Response
+	 */
+	public function getResponse($statusCode) {
+		if(!$this->hasResponse($statusCode)) {
+			throw new \InvalidArgumentException(sprintf('Response with key %s does not exist', $statusCode));
+		}
+		return $this->responses[$statusCode];
+	}
+
+
+} 
