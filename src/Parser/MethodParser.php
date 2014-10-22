@@ -13,6 +13,11 @@ class MethodParser extends AbstractParser {
 	protected $namedParameterParser;
 
 	/**
+	 * @var UriParameterParser
+	 */
+	protected $uriParameterParser;
+
+	/**
 	 * @var ResponseParser
 	 */
 	protected $responseParser;
@@ -20,6 +25,7 @@ class MethodParser extends AbstractParser {
 	public function __construct() {
 		// @TODO: DI
 		$this->namedParameterParser = new NamedParameterParser();
+		$this->uriParameterParser = new UriParameterParser();
 		$this->responseParser = new ResponseParser();
 	}
 
@@ -62,6 +68,17 @@ class MethodParser extends AbstractParser {
 		foreach($data as $statusCode => $conf) {
 			$response = $this->responseParser->parse($conf, $statusCode);
 			$method->addResponse($response, $statusCode);
+		}
+	}
+
+	/**
+	 * @param Method $definition
+	 * @param $data
+	 */
+	protected function setBaseUriParameters(Method $definition, $data) {
+		foreach($data as $name => $parameter) {
+			$parameter = $this->uriParameterParser->parse($parameter, $name);
+			$definition->addBaseUriParameter($parameter, $name);
 		}
 	}
 }

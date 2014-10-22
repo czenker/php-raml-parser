@@ -18,9 +18,16 @@ class MethodParserTest extends AbstractTest {
 
 	public function testBasic() {
 		$method = $this->parser->parse([
-			'description' => 'List Jobs'
+			'displayName' => 'Example'
 		], 'get');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Method', $method);
+		$this->assertSame('Example', $method->getDisplayName());
+	}
+
+	public function testDescription() {
+		$method = $this->parser->parse([
+			'description' => 'List Jobs'
+		], 'get');
 		$this->assertSame('List Jobs', $method->getDescription());
 	}
 
@@ -91,6 +98,23 @@ class MethodParserTest extends AbstractTest {
 		$response = $method->getResponse('503');
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Response', $response);
 		$this->assertSame('The service is currently unavailable', $response->getDescription());
+	}
+
+	public function testBaseUriParameters() {
+		$method = $this->parser->parse([
+			'displayName' => 'update a user\'s picture',
+			'baseUriParameters' => [
+				'apiDomain' => [
+					'enum' => ['content-update'],
+				],
+			]
+		], '/put');
+
+		$this->assertCount(1, $method->getBaseUriParameters());
+		$this->assertTrue($method->hasBaseUriParameter('apiDomain'));
+		$parameter = $method->getBaseUriParameter('apiDomain');
+		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UriParameter', $parameter);
+		$this->assertSame(['content-update'], $parameter->getEnum());
 	}
 }
  

@@ -20,6 +20,13 @@ class Method {
 	protected $method;
 
 	/**
+	 * The displayName attribute provides a friendly name to the resource
+	 *
+	 * @var string
+	 */
+	protected $displayName;
+
+	/**
 	 * a description attribute briefly describes what the method does to the resource
 	 *
 	 * @var string
@@ -48,6 +55,13 @@ class Method {
 	protected $queryParameters = array();
 
 	/**
+	 * A resource or a method can override a base URI template's values.
+	 *
+	 * @var array<UriParameter>
+	 */
+	protected $baseUriParameters = [];
+
+	/**
 	 * @todo
 	 *
 	 * @var array<Body>
@@ -61,6 +75,20 @@ class Method {
 
 	public function __construct($method) {
 		$this->method = $method;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDisplayName() {
+		return $this->displayName;
+	}
+
+	/**
+	 * @param string $displayName
+	 */
+	public function setDisplayName($displayName) {
+		$this->displayName = $displayName;
 	}
 
 	/**
@@ -210,5 +238,38 @@ class Method {
 		return $this->responses[$statusCode];
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getBaseUriParameters() {
+		return $this->baseUriParameters;
+	}
+
+	/**
+	 * @param UriParameter $parameter
+	 * @param string $name
+	 */
+	public function addBaseUriParameter(UriParameter $parameter, $name) {
+		$this->baseUriParameters[$name] = $parameter;
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasBaseUriParameter($key) {
+		return array_key_exists($key, $this->baseUriParameters);
+	}
+
+	/**
+	 * @param $key
+	 * @return UriParameter
+	 */
+	public function getBaseUriParameter($key) {
+		if(!$this->hasBaseUriParameter($key)) {
+			throw new \InvalidArgumentException(sprintf('BaseUriParameter with key %s does not exist', $key));
+		}
+		return $this->baseUriParameters[$key];
+	}
 
 } 
