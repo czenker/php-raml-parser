@@ -1,6 +1,5 @@
 <?php
 namespace Xopn\PhpRamlParser\Domain;
-use Xopn\PhpRamlParser\Parser\UserDocumentationParser;
 
 /**
  * The parsed content of the root RAML file
@@ -291,7 +290,7 @@ class Definition {
 
 	/**
 	 * @param $key
-	 * @return mixed
+	 * @return Resource
 	 */
 	public function getResource($key) {
 		if(!$this->hasResource($key)) {
