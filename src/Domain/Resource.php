@@ -4,6 +4,13 @@ namespace Xopn\PhpRamlParser\Domain;
 class Resource extends AbstractDomain {
 
 	/**
+	 * The uri of this resource relative to its parent resource's uri or the baseUri (if it has no parent)
+	 *
+	 * @var string
+	 */
+	protected $relativeUri;
+
+	/**
 	 * The displayName attribute provides a friendly name to the resource
 	 *
 	 * It is a friendly name used only for display or documentation purposes.
@@ -49,10 +56,24 @@ class Resource extends AbstractDomain {
 	protected $resources = [];
 
 	/**
-	 * @param string $propertyKeyName
+	 * @param string $relativeUri
 	 */
-	public function __construct($propertyKeyName) {
-		$this->displayName = $propertyKeyName;
+	public function __construct($relativeUri) {
+		$this->relativeUri = $relativeUri;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRelativeUri() {
+		return $this->relativeUri;
+	}
+
+	/**
+	 * @param string $relativeUri
+	 */
+	public function setRelativeUri($relativeUri) {
+		$this->relativeUri = $relativeUri;
 	}
 
 	/**
