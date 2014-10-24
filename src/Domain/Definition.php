@@ -195,6 +195,7 @@ class Definition extends AbstractDomain {
 	 * @param string $name
 	 */
 	public function addBaseUriParameter(UriParameter $parameter, $name) {
+		$parameter->setParent($this);
 		$this->baseUriParameters[$name] = $parameter;
 	}
 
@@ -229,6 +230,7 @@ class Definition extends AbstractDomain {
 	 * @param string $name
 	 */
 	public function addUriParameter(UriParameter $parameter, $name) {
+		$parameter->setParent($this);
 		$this->uriParameters[$name] = $parameter;
 	}
 
@@ -262,6 +264,7 @@ class Definition extends AbstractDomain {
 	 * @param UserDocumentation $userDocumentation
 	 */
 	public function addDocumentation(UserDocumentation $userDocumentation) {
+		$userDocumentation->setParent($this);
 		$this->documentation[] = $userDocumentation;
 	}
 
@@ -277,6 +280,7 @@ class Definition extends AbstractDomain {
 	 * @param string $path
 	 */
 	public function addResource(Resource $resource, $path) {
+		$resource->setParent($this);
 		$this->resources[$path] = $resource;
 	}
 

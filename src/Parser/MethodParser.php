@@ -45,7 +45,6 @@ class MethodParser extends AbstractParser {
 	public function setHeaders(Method $method, $data) {
 		foreach($data as $key => $dat) {
 			$parameter = $this->namedParameterParser->parse($dat, $key);
-			$parameter->setParent($method);
 			$method->addHeader($parameter, $key);
 		}
 	}
@@ -57,7 +56,6 @@ class MethodParser extends AbstractParser {
 	protected function setQueryParameters(Method $method, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->namedParameterParser->parse($parameter, $name);
-			$parameter->setParent($method);
 			$method->addQueryParameter($parameter, $name);
 		}
 	}
@@ -69,7 +67,6 @@ class MethodParser extends AbstractParser {
 	protected function setResponses(Method $method, $data) {
 		foreach($data as $statusCode => $conf) {
 			$response = $this->responseParser->parse($conf, $statusCode);
-			$response->setParent($method);
 			$method->addResponse($response, $statusCode);
 		}
 	}
@@ -81,7 +78,6 @@ class MethodParser extends AbstractParser {
 	protected function setBaseUriParameters(Method $method, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->uriParameterParser->parse($parameter, $name);
-			$parameter->setParent($method);
 			$method->addBaseUriParameter($parameter, $name);
 		}
 	}

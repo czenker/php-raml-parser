@@ -76,6 +76,7 @@ class Response extends AbstractDomain {
 	 * @param string $key
 	 */
 	public function addHeader(NamedParameter $header, $key) {
+		$header->setParent($this);
 		$key = strtolower($key);
 		$this->headers[$key] = $header;
 	}

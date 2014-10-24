@@ -57,7 +57,6 @@ class ResourceParser extends AbstractParser {
 		foreach($data as $path => $config) {
 			if($path[0] === '/') {
 				$subResource = $this->parse($config, $path);
-				$subResource->setParent($resource);
 				$resource->addResource($subResource, $path);
 			}
 		}
@@ -70,7 +69,6 @@ class ResourceParser extends AbstractParser {
 	protected function setBaseUriParameters(Resource $resource, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->uriParameterParser->parse($parameter, $name);
-			$parameter->setParent($resource);
 			$resource->addBaseUriParameter($parameter, $name);
 		}
 	}
@@ -83,7 +81,6 @@ class ResourceParser extends AbstractParser {
 		foreach($data as $methodName => $config) {
 			if(in_array(strtolower($methodName), $this->validMethods)) {
 				$method = $this->methodParser->parse($config, $methodName);
-				$method->setParent($resource);
 				$resource->addMethod($method, $methodName);
 			}
 		}

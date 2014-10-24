@@ -145,6 +145,7 @@ class Method extends AbstractDomain {
 	 * @param string $name
 	 */
 	public function addQueryParameter(NamedParameter $parameter, $name) {
+		$parameter->setParent($this);
 		$this->queryParameters[$name] = $parameter;
 	}
 
@@ -179,6 +180,7 @@ class Method extends AbstractDomain {
 	 * @param string $key
 	 */
 	public function addHeader(NamedParameter $header, $key) {
+		$header->setParent($this);
 		$key = strtolower($key);
 		$this->headers[$key] = $header;
 	}
@@ -216,6 +218,7 @@ class Method extends AbstractDomain {
 	 * @param string $statusCode
 	 */
 	public function addResponse(Response $response, $statusCode) {
+		$response->setParent($this);
 		$this->responses[$statusCode] = $response;
 	}
 
@@ -250,6 +253,7 @@ class Method extends AbstractDomain {
 	 * @param string $name
 	 */
 	public function addBaseUriParameter(UriParameter $parameter, $name) {
+		$parameter->setParent($this);
 		$this->baseUriParameters[$name] = $parameter;
 	}
 

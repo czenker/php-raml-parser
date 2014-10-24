@@ -65,7 +65,6 @@ class DefinitionParser extends AbstractParser {
 	protected function setUriParameters(Definition $definition, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->uriParameterParser->parse($parameter, $name);
-			$parameter->setParent($definition);
 			$definition->addUriParameter($parameter, $name);
 		}
 	}
@@ -77,7 +76,6 @@ class DefinitionParser extends AbstractParser {
 	protected function setBaseUriParameters(Definition $definition, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->uriParameterParser->parse($parameter, $name);
-			$parameter->setParent($definition);
 			$definition->addBaseUriParameter($parameter, $name);
 		}
 	}
@@ -89,7 +87,6 @@ class DefinitionParser extends AbstractParser {
 	protected function setDocumentation(Definition $definition, $data) {
 		foreach($data as $userDoc) {
 			$documentation = $this->userDocumentationParser->parse($userDoc);
-			$documentation->setParent($definition);
 			$definition->addDocumentation($documentation);
 		}
 	}
@@ -102,7 +99,6 @@ class DefinitionParser extends AbstractParser {
 		foreach($data as $path => $config) {
 			if($path[0] === '/') {
 				$resource = $this->resourceParser->parse($config, $path);
-				$resource->setParent($definition);
 				$definition->addResource($resource, $path);
 			}
 		}

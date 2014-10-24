@@ -29,7 +29,6 @@ class ResponseParser extends AbstractParser {
 	public function setHeaders(Response $response, $data) {
 		foreach($data as $key => $dat) {
 			$parameter = $this->namedParameterParser->parse($dat, $key);
-			$parameter->setParent($response);
 			$response->addHeader($parameter, $key);
 		}
 	}

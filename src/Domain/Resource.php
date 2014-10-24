@@ -117,6 +117,7 @@ class Resource extends AbstractDomain {
 	 */
 	public function addResource(Resource $resource, $path) {
 		$this->resources[$path] = $resource;
+		$resource->setParent($this);
 	}
 
 	/**
@@ -150,6 +151,7 @@ class Resource extends AbstractDomain {
 	 * @param string $name
 	 */
 	public function addBaseUriParameter(UriParameter $parameter, $name) {
+		$parameter->setParent($this);
 		$this->baseUriParameters[$name] = $parameter;
 	}
 
@@ -184,6 +186,7 @@ class Resource extends AbstractDomain {
 	 * @param string $name
 	 */
 	public function addMethod(Method $parameter, $name) {
+		$parameter->setParent($this);
 		$this->methods[$name] = $parameter;
 	}
 
