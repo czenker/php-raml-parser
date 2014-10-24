@@ -209,5 +209,18 @@ class Resource extends AbstractDomain {
 		return $this->methods[$name];
 	}
 
+	/**
+	 * Get the uri relative to the definitions baseUri, no matter how nested the resources are
+	 *
+	 * @return string
+	 */
+	public function getFullRelativeUri() {
+		if($this->parent instanceof self) {
+			return $this->parent->getFullRelativeUri() . $this->getRelativeUri();
+		} else {
+			return $this->getRelativeUri();
+		}
+	}
+
 
 } 
