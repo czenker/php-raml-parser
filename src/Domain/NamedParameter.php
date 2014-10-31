@@ -11,6 +11,11 @@ class NamedParameter extends AbstractDomain {
 	const TYPE_FILE    = 'file';
 
 	/**
+	 * @var string
+	 */
+	protected $propertyName;
+
+	/**
 	 * The displayName attribute specifies the parameter's display name.
 	 *
 	 * It is a friendly name used only for display or documentation purposes.
@@ -109,10 +114,24 @@ class NamedParameter extends AbstractDomain {
 	protected $default;
 
 	/**
-	 * @param string $propertyKeyName
+	 * @param string $propertyName
 	 */
-	public function __construct($propertyKeyName) {
-		$this->displayName = $propertyKeyName;
+	public function __construct($propertyName) {
+		$this->propertyName = $propertyName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPropertyName() {
+		return $this->propertyName;
+	}
+
+	/**
+	 * @param string $propertyName
+	 */
+	public function setPropertyName($propertyName) {
+		$this->propertyName = $propertyName;
 	}
 
 	/**

@@ -29,16 +29,18 @@ class NamedParameterParserTest extends AbstractTest {
 		$this->assertSame('Hello World', $namedParameter->getDescription(), 'description should match');
 	}
 
+	public function testPropertyName() {
+		$namedParameter = $this->parser->parse([], 'key');
+		$this->assertSame('key', $namedParameter->getPropertyName());
+	}
+
 	public function testDisplayName() {
 		$data = [
 			'type' => 'string',
-			'description' => 'Hello World'
+			'description' => 'Hello World',
+			'displayName' => 'bazBar',
 		];
 
-		$namedParameter = $this->parser->parse($data, 'key');
-		$this->assertSame('key', $namedParameter->getDisplayName(), 'key should be default displayName');
-
-		$data['displayName'] = 'bazBar';
 		$namedParameter = $this->parser->parse($data, 'key');
 		$this->assertSame('bazBar', $namedParameter->getDisplayName(), 'key should be overridden');
 	}
