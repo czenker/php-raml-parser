@@ -222,5 +222,31 @@ class Resource extends AbstractDomain {
 		}
 	}
 
+	/**
+	 * @return array<Resource>
+	 */
+	public function getAllResources() {
+		$resources = array_values($this->getResources());
+		foreach($this->getResources() as $resource) {
+			$resources = array_merge($resources, $resource->getAllResources());
+		}
+
+		return $resources;
+	}
+
+	/**
+	 * get all methods of this resource and all of its subresources
+	 *
+	 * @return array<Method>
+	 */
+	public function getAllMethods() {
+		$methods = array_values($this->getMethods());
+		foreach($this->getResources() as $resource) {
+			$methods = array_merge($methods, $resource->getAllMethods());
+		}
+
+		return $methods;
+	}
+
 
 } 

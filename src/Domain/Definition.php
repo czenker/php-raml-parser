@@ -303,4 +303,33 @@ class Definition extends AbstractDomain {
 		return $this->resources[$key];
 	}
 
+	/**
+	 * returns all methods of all resources in this definition
+	 *
+	 * @return array<Method>
+	 */
+	public function getAllMethods() {
+		$methods = [];
+		foreach($this->getResources() as $resource) {
+			$methods = array_merge($methods, $resource->getAllMethods());
+		}
+
+		return $methods;
+	}
+
+	/**
+	 * returns all resources in this definition (including nested resources)
+	 *
+	 * @return array<Resource>
+	 */
+	public function getAllResources() {
+		$resources = [];
+		foreach($this->getResources() as $resource) {
+			$resources[] = $resource;
+			$resources = array_merge($resources, $resource->getAllResources());
+		}
+
+		return $resources;
+	}
+
 } 
