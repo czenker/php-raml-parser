@@ -9,7 +9,6 @@
 		}
 	],
 	"require": {
-		"guzzlehttp/guzzle": "~4.0",
 		"symfony/yaml": "2.6.*@dev"
 	},
 	"require-dev": {
