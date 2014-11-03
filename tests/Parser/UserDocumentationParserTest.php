@@ -21,9 +21,9 @@ class UserDocumentationParserTest extends AbstractTest {
 		$this->assertSame('Home', $userDocumentation->getTitle());
 	}
 
-	public function testDescription() {
-		$userDocumentation = $this->parser->parse(['description' => 'Hello World']);
-		$this->assertSame('Hello World', $userDocumentation->getDescription());
+	public function testContent() {
+		$userDocumentation = $this->parser->parse(['content' => 'Hello World']);
+		$this->assertSame('Hello World', $userDocumentation->getContent());
 	}
 }
  

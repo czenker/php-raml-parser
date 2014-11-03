@@ -11,20 +11,20 @@ class UserDocumentation extends AbstractDomain {
 	/**
 	 * @var string|NULL
 	 */
-	protected $description;
+	protected $content;
 
 	/**
 	 * @return NULL|string
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getContent() {
+		return $this->content;
 	}
 
 	/**
 	 * @param NULL|string $description
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
+	public function setContent($description) {
+		$this->content = $description;
 	}
 
 	/**

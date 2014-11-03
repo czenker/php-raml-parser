@@ -148,7 +148,7 @@ class DefinitionParserTest extends AbstractTest {
 			'documentation' => [
 				[
 					'title' => 'Home',
-					'description' => 'Welcome to the _Zencoder API_ Documentation. The _Zencoder API_...'
+					'content' => 'Welcome to the _Zencoder API_ Documentation. The _Zencoder API_...'
 				],
 				[
 					'title' => 'Getting Started',
