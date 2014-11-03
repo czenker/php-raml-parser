@@ -1,6 +1,8 @@
 <?php
 namespace Xopn\PhpRamlParser\Parser;
 
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
+
 abstract class AbstractParser {
 
 	/**
@@ -16,6 +18,14 @@ abstract class AbstractParser {
 	public function parse($data, $objectKey = NULL) {
 		$object = $this->instanciateObject($objectKey, $data);
 		$this->setKey($object, $objectKey);
+
+		if(!is_array($data) && !$data instanceof \Traversable) {
+			throw new \InvalidArgumentException(sprintf(
+				'Expected value for key "%s" to be an array, but got %s.',
+				$objectKey,
+				is_object($data) ? get_class($data) : gettype($data)
+			));
+		}
 
 		foreach($data as $key => $value) {
 			$setterName = 'set' . $key;

@@ -1,0 +1,17 @@
+#%RAML 0.8
+displayName: retrieve all users
+baseUriParameters:
+  apiDomain:
+    enum: [ "api" ]
+/{userId}/image:
+  displayName: access users pictures
+  baseUriParameters:
+    apiDomain:
+      enum: [ "static" ]
+  get:
+    description: retrieve a user's picture
+  put:
+    description: update a user's picture
+    baseUriParameters:
+      apiDomain:
+        enum: [ "content-update" ]

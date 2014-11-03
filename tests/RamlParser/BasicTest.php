@@ -1,9 +1,10 @@
 <?php
-namespace Xopn\PhpRamlParserTests;
+namespace Xopn\PhpRamlParserTests\RamlParser;
 
 use Xopn\PhpRamlParser\RamlParser;
+use Xopn\PhpRamlParserTests\AbstractTest;
 
-class RamlParserTest extends AbstractTest {
+class BasicTest extends AbstractTest {
 
 	/**
 	 * @var RamlParser
@@ -15,7 +16,7 @@ class RamlParserTest extends AbstractTest {
 	}
 
 	public function testBasic() {
-		$definition = $this->ramlParser->parse(__DIR__ . '/fixtures/basicRamlParserTest.yml');
+		$definition = $this->ramlParser->parse(__DIR__ . '/fixtures/basicRamlParserTest.raml');
 
 		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Definition', $definition);
 
