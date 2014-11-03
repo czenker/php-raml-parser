@@ -125,5 +125,25 @@ class MethodParserTest extends AbstractTest {
 		$this->assertSame(['content-update'], $parameter->getEnum());
 		$this->assertSame($method, $parameter->getParent());
 	}
+
+	public function testTraits() {
+		$method = $this->parser->parse([
+			'displayName' => 'secret action',
+			'is' => [
+				'secured',
+				'foobar' => [ 'baz' => 'bar' ],
+			]
+		], '/put');
+
+		$this->assertCount(2, $method->getTraits());
+		$this->assertTrue($method->hasTrait('secured'), 'should have "secured" trait');
+		$this->assertCount(0, $method->getTraitParameters('secured'), '"secured" trait should have no parameters');
+
+		$this->assertTrue($method->hasTrait('foobar'), 'should have "foobar" trait');
+		$parameters = $method->getTraitParameters('foobar');
+		$this->assertCount(1, $parameters, '"foobar" trait should have one parameter');
+		$this->assertArrayHasKey('baz', $parameters);
+		$this->assertSame('bar', $parameters['baz']);
+	}
 }
  

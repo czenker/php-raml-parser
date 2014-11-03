@@ -80,6 +80,16 @@ class Definition extends AbstractDomain {
 	protected $resources = [];
 
 	/**
+	 * @var array
+	 */
+	protected $resourceTypes = [];
+
+	/**
+	 * @var array
+	 */
+	protected $traits = [];
+
+	/**
 	 * @return string
 	 */
 	public function getTitle() {
@@ -331,5 +341,75 @@ class Definition extends AbstractDomain {
 
 		return $resources;
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getResourceTypes() {
+		return $this->resourceTypes;
+	}
+
+	/**
+	 * @param string $name
+	 * @param array $configuration
+	 */
+	public function addResourceType($name, $configuration) {
+		$this->resourceTypes[$name] = $configuration;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function hasResourceType($name) {
+		return array_key_exists($name, $this->resourceTypes);
+	}
+
+	/**
+	 * @param string $name
+	 * @return array
+	 */
+	public function getResourceType($name) {
+		if(!$this->hasResourceType($name)) {
+			throw new \InvalidArgumentException(sprintf('ResourceType with name %s does not exist', $name));
+		}
+		return $this->resourceTypes[$name];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTraits() {
+		return $this->traits;
+	}
+
+	/**
+	 * @param string $name
+	 * @param array $configuration
+	 */
+	public function addTrait($name, $configuration) {
+		$this->traits[$name] = $configuration;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function hasTrait($name) {
+		return array_key_exists($name, $this->traits);
+	}
+
+	/**
+	 * @param string $name
+	 * @return array
+	 */
+	public function getTrait($name) {
+		if(!$this->hasTrait($name)) {
+			throw new \InvalidArgumentException(sprintf('Trait with name %s does not exist', $name));
+		}
+		return $this->traits[$name];
+	}
+
+
 
 } 

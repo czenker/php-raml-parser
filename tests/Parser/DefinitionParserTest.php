@@ -165,21 +165,60 @@ class DefinitionParserTest extends AbstractTest {
 		$this->assertSame('Home', $definition->getDocumentation()[0]->getTitle());
 	}
 
-	public function testResources() {
+	public function testTraits() {
 		$definition = $this->parser->parse([
 			'title' => 'GitHub API',
-			'/gists' => [
-				'displayName' => 'Gists',
+			'traits' => [
+				[
+					'secured' => [
+						'usage' => 'Apply this to any method that needs to be secured'
+					],
+					'paged' => [
+						'usage' => 'For paged responses'
+					],
+				],
+				[
+					'searchable' => 'Resource is searchable'
+				],
 			],
 		]);
 
-		$this->assertCount(1, $definition->getResources());
-		$this->assertTrue($definition->hasResource('/gists'));
+		$this->assertCount(3, $definition->getTraits());
+		$this->assertTrue($definition->hasTrait('secured'), 'should have "secured" trait');
+		$this->assertTrue($definition->hasTrait('paged'), 'should have "paged" trait');
+		$this->assertTrue($definition->hasTrait('searchable'), 'should have "searchable" trait');
 
-		$resource = $definition->getResource('/gists');
-		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\Resource', $resource);
-		$this->assertSame('Gists', $resource->getDisplayName());
-		$this->assertSame($definition, $resource->getParent());
+		$secured = $definition->getTrait('secured');
+		$this->assertInternalType('array', $secured);
+		$this->assertSame('Apply this to any method that needs to be secured', $secured['usage']);
+	}
+
+	public function testResourceTypes() {
+		$definition = $this->parser->parse([
+			'title' => 'GitHub API',
+			'resourceTypes' => [
+				[
+					'collection' => [
+						'usage' => 'This resourceType should be used for any collection of items'
+					],
+					'member' => [
+						'usage' => 'member'
+					],
+				],
+				[
+					'specialCollection' => 'specialCollection'
+				],
+			],
+		]);
+
+		$this->assertCount(3, $definition->getResourceTypes());
+		$this->assertTrue($definition->hasResourceType('collection'), 'should have "collection" resourceType');
+		$this->assertTrue($definition->hasResourceType('member'), 'should have "collection" resourceType');
+		$this->assertTrue($definition->hasResourceType('specialCollection'), 'should have "collection" resourceType');
+
+		$collection = $definition->getResourceType('collection');
+		$this->assertInternalType('array', $collection);
+		$this->assertSame('This resourceType should be used for any collection of items', $collection['usage']);
 	}
 
 

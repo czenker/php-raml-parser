@@ -81,4 +81,18 @@ class MethodParser extends AbstractParser {
 			$method->addBaseUriParameter($parameter, $name);
 		}
 	}
+
+	/**
+	 * @param Resource $method
+	 * @param $data
+	 */
+	protected function setIs(Method $method, $data) {
+		foreach($data as $key => $value) {
+			if(is_array($value)) {
+				$method->addTrait($key, $value);
+			} else {
+				$method->addTrait($value);
+			}
+		}
+	}
 }

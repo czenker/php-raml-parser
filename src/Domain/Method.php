@@ -73,6 +73,13 @@ class Method extends AbstractDomain {
 	 */
 	protected $responses = [];
 
+	/**
+	 * key is the name of the trait, value its parameters
+	 *
+	 * @var array<array>
+	 */
+	protected $traits = [];
+
 	public function __construct($method) {
 		$this->method = $method;
 	}
@@ -276,4 +283,37 @@ class Method extends AbstractDomain {
 		return $this->baseUriParameters[$key];
 	}
 
-} 
+	/**
+	 * @return array
+	 */
+	public function getTraits() {
+		return $this->traits;
+	}
+
+	/**
+	 * @param string $name
+	 * @param array $parameters
+	 */
+	public function addTrait($name, $parameters = []) {
+		$this->traits[$name] = $parameters;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function hasTrait($name) {
+		return array_key_exists($name, $this->traits);
+	}
+
+	/**
+	 * @param string $name
+	 * @return array
+	 */
+	public function getTraitParameters($name) {
+		if(!$this->hasTrait($name)) {
+			throw new \InvalidArgumentException(sprintf('Trait with name %s is not set for this resource', $name));
+		}
+		return $this->traits[$name];
+	}
+}

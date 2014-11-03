@@ -3,39 +3,9 @@ namespace Xopn\PhpRamlParser\Parser;
 
 use Xopn\PhpRamlParser\Domain\Resource;
 
-class ResourceParser extends AbstractParser {
+class ResourceParser extends AbstractResourceParser {
 
 	protected $className = '\\Xopn\\PhpRamlParser\\Domain\\Resource';
-
-	protected $validMethods = [
-		// rfc2616
-		'options',
-		'get',
-		'head',
-		'post',
-		'put',
-		'delete',
-		'trace',
-		'connect',
-		// rfc5789
-		'patch',
-	];
-
-	/**
-	 * @var UriParameterParser
-	 */
-	protected $uriParameterParser;
-
-	/**
-	 * @var MethodParser
-	 */
-	protected $methodParser;
-
-	public function __construct() {
-		// @TODO: DI
-		$this->uriParameterParser = new UriParameterParser();
-		$this->methodParser = new MethodParser();
-	}
 
 	/**
 	 * @param array $data
@@ -45,7 +15,6 @@ class ResourceParser extends AbstractParser {
 	public function parse($data, $objectKey = NULL) {
 		$resource = parent::parse($data, $objectKey);
 		$this->setResources($resource, $data);
-		$this->setMethods($resource, $data);
 		return $resource;
 	}
 
@@ -66,10 +35,16 @@ class ResourceParser extends AbstractParser {
 	 * @param Resource $resource
 	 * @param $data
 	 */
-	protected function setBaseUriParameters(Resource $resource, $data) {
-		foreach($data as $name => $parameter) {
-			$parameter = $this->uriParameterParser->parse($parameter, $name);
-			$resource->addBaseUriParameter($parameter, $name);
+	protected function setType(Resource $resource, $data) {
+		if(is_array($data)) {
+			if(count($data) > 1) {
+				throw new \InvalidArgumentException('Only one resource type can be set');
+			}
+			foreach($data as $name => $parameters) {
+				$resource->setResourceType($name, $parameters);
+			}
+		} else {
+			$resource->setResourceType($data);
 		}
 	}
 
@@ -77,13 +52,13 @@ class ResourceParser extends AbstractParser {
 	 * @param Resource $resource
 	 * @param $data
 	 */
-	protected function setMethods(Resource $resource, $data) {
-		foreach($data as $methodName => $config) {
-			if(in_array(strtolower($methodName), $this->validMethods)) {
-				$method = $this->methodParser->parse($config, $methodName);
-				$resource->addMethod($method, $methodName);
+	protected function setIs(Resource $resource, $data) {
+		foreach($data as $key => $value) {
+			if(is_array($value)) {
+				$resource->addTrait($key, $value);
+			} else {
+				$resource->addTrait($value);
 			}
 		}
 	}
-
 }

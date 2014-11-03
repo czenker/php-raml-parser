@@ -95,6 +95,30 @@ class DefinitionParser extends AbstractParser {
 	 * @param Definition $definition
 	 * @param $data
 	 */
+	protected function setTraits(Definition $definition, $data) {
+		foreach($data as $traits) {
+			foreach($traits as $name => $configuration) {
+				$definition->addTrait($name, $configuration);
+			}
+		}
+	}
+
+	/**
+	 * @param Definition $definition
+	 * @param $data
+	 */
+	protected function setResourceTypes(Definition $definition, $data) {
+		foreach($data as $resourceTypes) {
+			foreach($resourceTypes as $name => $configuration) {
+				$definition->addResourceType($name, $configuration);
+			}
+		}
+	}
+
+	/**
+	 * @param Definition $definition
+	 * @param $data
+	 */
 	protected function setResources(Definition $definition, $data) {
 		foreach($data as $path => $config) {
 			if($path[0] === '/') {

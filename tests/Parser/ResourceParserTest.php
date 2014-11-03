@@ -95,5 +95,49 @@ class ResourceParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($resource, $method->getParent());
 	}
 
+	public function testResourceType() {
+		$resource = $this->parser->parse([
+			'type' => 'collection',
+		], '/example');
+
+		$this->assertSame('collection', $resource->getResourceType());
+		$this->assertSame([], $resource->getResourceTypeParameters());
+	}
+
+	public function testResourceTypeWithParameters() {
+		$resource = $this->parser->parse([
+			'type' => [
+				'collection' => [ 'foo' => 'bar', 'baz' => 42 ]
+			],
+		], '/example');
+
+		$this->assertSame('collection', $resource->getResourceType());
+
+		$parameters = $resource->getResourceTypeParameters();
+		$this->assertCount(2, $parameters);
+		$this->assertArrayHasKey('foo', $parameters);
+		$this->assertSame('bar', $parameters['foo']);
+		$this->assertArrayHasKey('baz', $parameters);
+	}
+
+	public function testTraits() {
+		$resource = $this->parser->parse([
+			'is' => [
+				'secured',
+				'foobar' => [ 'baz' => 'bar' ],
+			]
+		], '/secret');
+
+		$this->assertCount(2, $resource->getTraits());
+		$this->assertTrue($resource->hasTrait('secured'), 'should have "secured" trait');
+		$this->assertCount(0, $resource->getTraitParameters('secured'), '"secured" trait should have no parameters');
+
+		$this->assertTrue($resource->hasTrait('foobar'), 'should have "foobar" trait');
+		$parameters = $resource->getTraitParameters('foobar');
+		$this->assertCount(1, $parameters, '"foobar" trait should have one parameter');
+		$this->assertArrayHasKey('baz', $parameters);
+		$this->assertSame('bar', $parameters['baz']);
+	}
+
 }
  
