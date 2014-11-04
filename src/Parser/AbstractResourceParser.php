@@ -50,6 +50,17 @@ abstract class AbstractResourceParser extends AbstractParser {
 	 * @param Resource $resource
 	 * @param $data
 	 */
+	protected function setUriParameters(AbstractResource $resource, $data) {
+		foreach($data as $name => $parameter) {
+			$parameter = $this->uriParameterParser->parse($parameter, $name);
+			$resource->addUriParameter($parameter, $name);
+		}
+	}
+
+	/**
+	 * @param Resource $resource
+	 * @param $data
+	 */
 	protected function setBaseUriParameters(AbstractResource $resource, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->uriParameterParser->parse($parameter, $name);

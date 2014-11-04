@@ -18,7 +18,11 @@ class Merger {
 		if(!$into->getDescription()) {
 			$into->setDescription($source->getDescription());
 		}
-		// @TODO: uriParameter
+		foreach($source->getUriParameters() as $name => $uriParameter) {
+			if(!$into->hasUriParameter($name)) {
+				$into->addUriParameter($uriParameter, $name);
+			}
+		}
 		foreach($source->getBaseUriParameters() as $name => $baseUriParameter) {
 			if(!$into->hasBaseUriParameter($name)) {
 				$into->addBaseUriParameter($baseUriParameter, $name);
@@ -69,7 +73,7 @@ class Merger {
 		}
 		// @TODO: body
 		foreach($source->getResponses() as $name => $response) {
-			if(!$into->hasResponse($response)) {
+			if(!$into->hasResponse($name)) {
 				$into->addResponse($response, $name);
 			}
 		}

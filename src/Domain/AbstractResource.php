@@ -74,6 +74,41 @@ abstract class AbstractResource extends AbstractDomain {
 	/**
 	 * @return array
 	 */
+	public function getUriParameters() {
+		return $this->uriParameters;
+	}
+
+	/**
+	 * @param UriParameter $parameter
+	 * @param string $name
+	 */
+	public function addUriParameter(UriParameter $parameter, $name) {
+		$parameter->setParent($this);
+		$this->uriParameters[$name] = $parameter;
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasUriParameter($key) {
+		return array_key_exists($key, $this->uriParameters);
+	}
+
+	/**
+	 * @param $key
+	 * @return UriParameter
+	 */
+	public function getUriParameter($key) {
+		if(!$this->hasUriParameter($key)) {
+			throw new \InvalidArgumentException(sprintf('UriParameter with key %s does not exist', $key));
+		}
+		return $this->uriParameters[$key];
+	}
+
+	/**
+	 * @return array
+	 */
 	public function getBaseUriParameters() {
 		return $this->baseUriParameters;
 	}

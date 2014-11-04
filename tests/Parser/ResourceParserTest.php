@@ -55,6 +55,25 @@ class ResourceParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($resource, $nestedResource->getParent());
 	}
 
+	public function testUriParameters() {
+		$resource = $this->parser->parse([
+			'displayName' => 'User',
+			'uriParameters' => [
+				'userId' => [
+					'type' => 'integer'
+				],
+			]
+		], '/{userId}');
+
+		$this->assertCount(1, $resource->getUriParameters());
+		$this->assertTrue($resource->hasUriParameter('userId'));
+
+		$parameter = $resource->getUriParameter('userId');
+		$this->assertInstanceOf('\\Xopn\\PhpRamlParser\\Domain\\UriParameter', $parameter);
+		$this->assertSame('integer', $parameter->getType());
+		$this->assertSame($resource, $parameter->getParent());
+	}
+
 	public function testBaseUriParameters() {
 		$resource = $this->parser->parse([
 			'displayName' => 'Download files',
