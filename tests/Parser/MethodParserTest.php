@@ -146,4 +146,3 @@ class MethodParserTest extends AbstractTest {
 		$this->assertSame('bar', $parameters['baz']);
 	}
 }
- 

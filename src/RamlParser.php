@@ -3,6 +3,7 @@ namespace Xopn\PhpRamlParser;
 
 use Symfony\Component\Yaml\Yaml;
 use Xopn\PhpRamlParser\Parser\DefinitionParser;
+use Xopn\PhpRamlParser\Resolver\Resolver;
 
 class RamlParser {
 
@@ -12,15 +13,32 @@ class RamlParser {
 	protected $basePath;
 
 	/**
+	 * @var Resolver
+	 */
+	protected $resolver;
+
+	public function __construct() {
+		// @TODO: DI
+		$this->resolver = new Resolver();
+	}
+
+	/**
 	 * @param $location
+	 * @param bool $resolveTraits
 	 * @return \Xopn\PhpRamlParser\Domain\Definition
 	 */
-	public function parse($location) {
+	public function parse($location, $resolveTraits = FALSE) {
 		$this->basePath = dirname($location) . '/';
 		$structure = $this->parseRaml($location);
 
 		$definitionParser = new DefinitionParser();
-		return $definitionParser->parse($structure);
+		$definition = $definitionParser->parse($structure);
+
+		if($resolveTraits) {
+			$this->resolver->applyResourceTypesAndTraits($definition);
+		}
+
+		return $definition;
 	}
 
 	/**

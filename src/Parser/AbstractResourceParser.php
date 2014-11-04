@@ -1,7 +1,7 @@
 <?php
 namespace Xopn\PhpRamlParser\Parser;
 
-use Xopn\PhpRamlParser\Domain\Resource;
+use Xopn\PhpRamlParser\Domain\AbstractResource;
 
 abstract class AbstractResourceParser extends AbstractParser {
 
@@ -50,7 +50,7 @@ abstract class AbstractResourceParser extends AbstractParser {
 	 * @param Resource $resource
 	 * @param $data
 	 */
-	protected function setBaseUriParameters(Resource $resource, $data) {
+	protected function setBaseUriParameters(AbstractResource $resource, $data) {
 		foreach($data as $name => $parameter) {
 			$parameter = $this->uriParameterParser->parse($parameter, $name);
 			$resource->addBaseUriParameter($parameter, $name);
@@ -61,7 +61,7 @@ abstract class AbstractResourceParser extends AbstractParser {
 	 * @param Resource $resource
 	 * @param $data
 	 */
-	protected function setMethods(Resource $resource, $data) {
+	protected function setMethods(AbstractResource $resource, $data) {
 		foreach($data as $methodName => $config) {
 			if(in_array(strtolower($methodName), $this->validMethods)) {
 				$method = $this->methodParser->parse($config, $methodName);

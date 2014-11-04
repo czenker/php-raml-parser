@@ -8,7 +8,7 @@ class Resource extends AbstractResource {
 	 *
 	 * @var string
 	 */
-	protected $relativeUri;
+	protected $resourcePath;
 
 	/**
 	 * @var array<Resource>
@@ -33,24 +33,36 @@ class Resource extends AbstractResource {
 	protected $resourceTypeParameters = [];
 
 	/**
-	 * @param string $relativeUri
+	 * @param string $resourcePath
 	 */
-	public function __construct($relativeUri) {
-		$this->relativeUri = $relativeUri;
+	public function __construct($resourcePath) {
+		$this->resourcePath = $resourcePath;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRelativeUri() {
-		return $this->relativeUri;
+	public function getResourcePath() {
+		return $this->resourcePath;
 	}
 
 	/**
-	 * @param string $relativeUri
+	 * @param string $resourcePath
 	 */
-	public function setRelativeUri($relativeUri) {
-		$this->relativeUri = $relativeUri;
+	public function setResourcePath($resourcePath) {
+		$this->resourcePath = $resourcePath;
+	}
+
+	/**
+	 * the part of the path following the rightmost "/"
+	 *
+	 * used in resourceTypes
+	 *
+	 * @return string
+	 */
+	public function getResourcePathName() {
+		$rPos = strrpos($this->resourcePath, '/');
+		return $rPos === NULL ? $this->resourcePath : substr($this->resourcePath, $rPos + 1);
 	}
 
 	/**
@@ -95,9 +107,9 @@ class Resource extends AbstractResource {
 	 */
 	public function getFullRelativeUri() {
 		if($this->parent instanceof self) {
-			return $this->parent->getFullRelativeUri() . $this->getRelativeUri();
+			return $this->parent->getFullRelativeUri() . $this->getResourcePath();
 		} else {
-			return $this->getRelativeUri();
+			return $this->getResourcePath();
 		}
 	}
 

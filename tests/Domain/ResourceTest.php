@@ -85,5 +85,11 @@ class ResourceTest extends \PHPUnit_Framework_TestCase {
 		$this->assertCount(6, $allMethods);
 	}
 
+	public function testResourcePathName() {
+		$resource = new Resource('/users');
+
+		$this->assertSame('users', $resource->getResourcePathName());
+	}
+
 }
  

@@ -26,7 +26,7 @@ class ResourceParserTest extends \PHPUnit_Framework_TestCase {
 	public function testPropertyKey() {
 		$resource = $this->parser->parse([], '/gists');
 
-		$this->assertSame('/gists', $resource->getRelativeUri());
+		$this->assertSame('/gists', $resource->getResourcePath());
 	}
 
 	public function testDescription() {
