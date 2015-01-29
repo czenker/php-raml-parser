@@ -19,13 +19,13 @@ class ResourceTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertSame(
 			'/path',
-			$resource1->getFullRelativeUri(),
+			$resource1->getFullResourcePath(),
 			'full relative uri for root resource should be right'
 		);
 
 		$this->assertSame(
 			'/path/to/resource',
-			$resource3->getFullRelativeUri(),
+			$resource3->getFullResourcePath(),
 			'full relative uri for nested resource should be right'
 		);
 

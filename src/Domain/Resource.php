@@ -101,13 +101,13 @@ class Resource extends AbstractResource {
 	}
 
 	/**
-	 * Get the uri relative to the definitions baseUri, no matter how nested the resources are
+	 * Get the resource path relative to the definitions baseUri, no matter how nested the resources are
 	 *
 	 * @return string
 	 */
-	public function getFullRelativeUri() {
+	public function getFullResourcePath() {
 		if($this->parent instanceof self) {
-			return $this->parent->getFullRelativeUri() . $this->getResourcePath();
+			return $this->parent->getFullResourcePath() . $this->getResourcePath();
 		} else {
 			return $this->getResourcePath();
 		}
