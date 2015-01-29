@@ -87,7 +87,7 @@ class RamlParser {
 	 * @param string $path
 	 * @return string
 	 */
-	public function parseText($path) {
+	protected function parseText($path) {
 		$content = file_get_contents($path);
 		if($content === NULL) {
 			throw new \InvalidArgumentException(sprintf(
